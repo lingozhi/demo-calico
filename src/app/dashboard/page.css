@@ -1,0 +1,62 @@
+/* 容器样式 */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 上传部分样式 */
+.upload-section {
+  margin-bottom: 30px;
+  text-align: center;
+  width: 100%;
+}
+
+.upload-input {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* 画布容器样式 */
+.canvas-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.canvas {
+  border: 2px solid #000;
+  border-radius: 5px;
+  max-width: 100%;
+  height: auto;
+}
+h3 {
+  color: #000;
+}
+/* 提交按钮样式 */
+.submit-button {
+  padding: 12px 24px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
