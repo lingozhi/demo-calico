@@ -471,21 +471,23 @@ const ImageUploadAndEdit = () => {
             </div>
           )}
         </div>
-        <Button
-          type="primary"
-          className="submit-button"
-          onClick={() => {
-            setLoading((pre) => ({
-              ...pre,
-              img4: true,
-            }));
-            message.info("正在生成图片");
-            handleSubmit("canvas1", "canvas2");
-            handleSubmit("canvas3", "canvas4");
-          }}
-        >
-          提交图片
-        </Button>
+        <div className="hanld_btn">
+          <Button
+            type="primary"
+            className="submit-button"
+            onClick={() => {
+              setLoading((pre) => ({
+                ...pre,
+                img4: true,
+              }));
+              message.info("正在生成图片");
+              handleSubmit("canvas1", "canvas2");
+              handleSubmit("canvas3", "canvas4");
+            }}
+          >
+            提交图片
+          </Button>
+        </div>
       </Spin>
       {/* <Button
         type="primary"
