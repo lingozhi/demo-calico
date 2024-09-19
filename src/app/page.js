@@ -211,38 +211,36 @@ const ImageUploadAndEdit = () => {
   };
 
   const getImg = async () => {
-    const response = await fetch(
-      "http://dev.chimerai.cn:11118/v1/jeanswest_pattern_generation_with_tryon",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "ai-token": "534dc1cc256cd9c3f1b62f14900fa5978SnLbY",
-          terminal: "4",
-        },
-        body: JSON.stringify({
-          load_original_image:
-            "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Original%20Image.jpg",
-          load_original_mask:
-            "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Original%20Mask.png",
-          load_style_image:
-            "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Style%20Image.jpg",
-          load_style_mask:
-            "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Style%20Mask.png",
-          load_logo_image:
-            "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Logo%20Image.jpg",
-          positive_prompt: "a art printing",
-          load_model_image:
-            "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Model%20Image.jpg",
-          load_garment_image:
-            "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Garment%20Image.png",
-          garment_color: "#7F179B",
-          remove_printing_background: true,
-          printing_scale: 1.5,
-          ...params,
-        }),
-      }
-    );
+    const response = await fetch("/api/proxy", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "ai-token": "534dc1cc256cd9c3f1b62f14900fa5978SnLbY",
+        terminal: "4",
+      },
+      body: JSON.stringify({
+        path: "jeanswest_pattern_generation_with_tryon",
+        load_original_image:
+          "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Original%20Image.jpg",
+        load_original_mask:
+          "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Original%20Mask.png",
+        load_style_image:
+          "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Style%20Image.jpg",
+        load_style_mask:
+          "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Style%20Mask.png",
+        load_logo_image:
+          "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Logo%20Image.jpg",
+        positive_prompt: "a art printing",
+        load_model_image:
+          "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Model%20Image.jpg",
+        load_garment_image:
+          "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Garment%20Image.png",
+        garment_color: "#7F179B",
+        remove_printing_background: true,
+        printing_scale: 1.5,
+        ...params,
+      }),
+    });
     if (response.ok) {
       const data = await response.json();
       setTaskID(data.data.taskID);
@@ -253,12 +251,10 @@ const ImageUploadAndEdit = () => {
   };
 
   const getImg2 = async () => {
-    const result = await axios.post(
-      "http://dev.chimerai.cn:11118/v1/img2img/query",
-      {
-        taskID: taskID,
-      }
-    );
+    const result = await axios.post("/api/proxy", {
+      path: "img2img/query",
+      taskID: taskID,
+    });
     if (result?.data?.data?.progress === 100) {
       setImages((prevImages) => ({
         ...prevImages,
@@ -297,7 +293,7 @@ const ImageUploadAndEdit = () => {
         )}
       </div>
       <div className="upload-section">
-        <h3>上传模型图</h3>
+        <h3>上传风格图</h3>
         <input
           type="file"
           accept="image/*"
