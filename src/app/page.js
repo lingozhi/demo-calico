@@ -1,16 +1,18 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import "./page.css";
-
+import axios from "@/app/lib/axios";
 const ImageUploadAndEdit = () => {
   const [params, setParams] = useState({});
   const [images, setImages] = useState({
     img1: null,
     img2: null,
     img3: null,
+    img4: null,
     imageUrl1: null,
     imageUrl2: null,
     imageUrl3: null,
+    imageUrl4: null,
   });
   const [taskID, setTaskID] = useState();
   const canvasRefs = {
@@ -19,6 +21,7 @@ const ImageUploadAndEdit = () => {
     canvas3: useRef(null),
     canvas4: useRef(null),
     canvas5: useRef(null),
+    canvas6: useRef(null),
   };
 
   const [painting, setPainting] = useState({
@@ -81,6 +84,24 @@ const ImageUploadAndEdit = () => {
     }
   }, [images.img3]);
 
+  useEffect(() => {
+    if (images.imageUrl4) {
+      const img = new Image();
+      img.src = images.imageUrl4;
+      console.log(img.src);
+      img.crossOrigin = "Anonymous"; // Ensure cross-origin compatibility if needed
+      console.log(img.naturalWidth, "img.naturalWidth");
+      img.onload = () => {
+        const canvas = canvasRefs["canvas6"].current;
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = img.naturalWidth;
+        canvas.height = img.naturalHeight;
+
+        ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
+      };
+    }
+  }, [images.imageUrl4]);
   const drawImageToCanvas = (canvasKey, img) => {
     const canvas = canvasRefs[canvasKey].current;
     const ctx = canvas.getContext("2d");
@@ -201,74 +222,51 @@ const ImageUploadAndEdit = () => {
         },
         body: JSON.stringify({
           load_original_image:
-            "https://pic.imgdb.cn/item/66eaac34f21886ccc0b95ee7.jpg",
+            "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Original%20Image.jpg",
           load_original_mask:
-            "https://pic.imgdb.cn/item/66eaac53f21886ccc0b97aee.png",
+            "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Original%20Mask.png",
           load_style_image:
-            "https://pic.imgdb.cn/item/66eaac70f21886ccc0b99248.jpg",
+            "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Style%20Image.jpg",
           load_style_mask:
-            "https://pic.imgdb.cn/item/66eaac8ef21886ccc0b9addd.png",
+            "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Style%20Mask.png",
           load_logo_image:
-            "https://pic.imgdb.cn/item/66eaacadf21886ccc0b9c861.jpg",
+            "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Logo%20Image.jpg",
           positive_prompt: "a art printing",
           load_model_image:
-            "https://pic.imgdb.cn/item/66eaacedf21886ccc0ba00d7.jpg",
+            "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Model%20Image.jpg",
           load_garment_image:
-            "https://pic.imgdb.cn/item/66eaad2ff21886ccc0ba4226.png",
+            "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Garment%20Image.png",
           garment_color: "#7F179B",
           remove_printing_background: true,
           printing_scale: 1.5,
-          ...params, // Merge any additional parameters from `params`
+          ...params,
         }),
       }
     );
     if (response.ok) {
-      // Parse the response as JSON
       const data = await response.json();
-      console.log(data); // Handle the response data
-      console.log(data.data.taskID);
-      const response = await fetch(
-        "http://dev.chimerai.cn:11118/v1/jeanswest_pattern_generation_with_tryon",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "ai-token": "534dc1cc256cd9c3f1b62f14900fa5978SnLbY",
-            terminal: "4",
-          },
-          body: JSON.stringify({
-            load_original_image:
-              "https://pic.imgdb.cn/item/66eaac34f21886ccc0b95ee7.jpg",
-            load_original_mask:
-              "https://pic.imgdb.cn/item/66eaac53f21886ccc0b97aee.png",
-            load_style_image:
-              "https://pic.imgdb.cn/item/66eaac70f21886ccc0b99248.jpg",
-            load_style_mask:
-              "https://pic.imgdb.cn/item/66eaac8ef21886ccc0b9addd.png",
-            load_logo_image:
-              "https://pic.imgdb.cn/item/66eaacadf21886ccc0b9c861.jpg",
-            positive_prompt: "a art printing",
-            load_model_image:
-              "https://pic.imgdb.cn/item/66eaacedf21886ccc0ba00d7.jpg",
-            load_garment_image:
-              "https://pic.imgdb.cn/item/66eaad2ff21886ccc0ba4226.png",
-            garment_color: "#7F179B",
-            remove_printing_background: true,
-            printing_scale: 1.5,
-            ...params,
-          }),
-        }
-      );
       setTaskID(data.data.taskID);
     } else {
-      // Handle the error
       const errorMessage = await response.text();
       console.error("Error:", errorMessage);
-      // Display an error or handle accordingly
     }
-    console.log(response);
   };
 
+  const getImg2 = async () => {
+    const result = await axios.post(
+      "http://dev.chimerai.cn:11118/v1/img2img/query",
+      {
+        taskID: taskID,
+      }
+    );
+    if (result?.data?.data?.progress === 100) {
+      setImages((prevImages) => ({
+        ...prevImages,
+        imageUrl4: result.data.data.imageFiles[0].url,
+      }));
+    }
+    console.log("progress", result?.data?.data?.progress);
+  };
   useEffect(() => {
     if (Object.keys(params).length === 5) {
       getImg();
@@ -298,7 +296,6 @@ const ImageUploadAndEdit = () => {
           </div>
         )}
       </div>
-
       <div className="upload-section">
         <h3>上传模型图</h3>
         <input
@@ -320,7 +317,6 @@ const ImageUploadAndEdit = () => {
           </div>
         )}
       </div>
-
       <div className="upload-section">
         <h3>上传LOGO</h3>
         <input
@@ -335,7 +331,13 @@ const ImageUploadAndEdit = () => {
           </div>
         )}
       </div>
-
+      <div className="upload-section">
+        {images.imageUrl4 && (
+          <div className="canvas-container">
+            <canvas ref={canvasRefs.canvas6} className="canvas" />
+          </div>
+        )}
+      </div>
       <button
         className="submit-button"
         onClick={() => {
@@ -344,6 +346,14 @@ const ImageUploadAndEdit = () => {
         }}
       >
         提交图片
+      </button>
+      <button
+        className="submit-button"
+        onClick={() => {
+          getImg2();
+        }}
+      >
+        获取图片
       </button>
     </div>
   );
