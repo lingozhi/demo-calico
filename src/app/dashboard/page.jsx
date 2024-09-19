@@ -193,8 +193,8 @@ const ImageUploadAndEdit = () => {
 
   return (
     <div className="container">
-      <div className="upload-section">
-        <h3>上传第一张图片</h3>
+      <div className="upload-section mg4">
+        <h3>上传原型图片</h3>
         <input
           type="file"
           accept="image/*"
