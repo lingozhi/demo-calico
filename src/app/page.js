@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import "./page.css";
+
 const ImageUploadAndEdit = () => {
   const [params, setParams] = useState({});
   const [images, setImages] = useState({
@@ -11,13 +12,13 @@ const ImageUploadAndEdit = () => {
     imageUrl2: null,
     imageUrl3: null,
   });
-
+  const [taskID, setTaskID] = useState();
   const canvasRefs = {
-    canvas1: useRef(null), // 用于第一张图片涂鸦的画布
-    canvas2: useRef(null), // 用于第一张图片生成黑底白涂鸦的画布
-    canvas3: useRef(null), // 用于第二张图片涂鸦的画布
-    canvas4: useRef(null), // 用于第二张图片生成黑底白涂鸦的画布
-    canvas5: useRef(null), // 用于LOGO图片生成黑底白涂鸦的画布
+    canvas1: useRef(null),
+    canvas2: useRef(null),
+    canvas3: useRef(null),
+    canvas4: useRef(null),
+    canvas5: useRef(null),
   };
 
   const [painting, setPainting] = useState({
@@ -25,25 +26,43 @@ const ImageUploadAndEdit = () => {
     painting2: false,
   });
 
-  // 通用上传图片方法
-  const handleUpload = (event, imgKey, urlKey) => {
+  const handleUpload = async (event, imgKey, urlKey) => {
     const file = event.target.files[0];
     if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
+    try {
+      const response = await fetch(`/api/dashboard?filename=${file.name}`, {
+        method: "POST",
+        body: file,
+      });
+
+      const newBlob = await response.json();
+      const imageUrl = newBlob.url;
+
       const img = new Image();
-      img.src = e.target.result;
-      setImages((prevImages) => ({
-        ...prevImages,
-        [imgKey]: img,
-        [urlKey]: e.target.result,
-      }));
-    };
-    reader.readAsDataURL(file);
+      img.crossOrigin = "Anonymous";
+      img.src = imageUrl;
+
+      img.onload = () => {
+        setImages((prevImages) => ({
+          ...prevImages,
+          [imgKey]: img,
+          [urlKey]: imageUrl,
+        }));
+
+        if (imgKey === "img1") {
+          setParams((prev) => ({ ...prev, load_original_image: imageUrl }));
+        } else if (imgKey === "img2") {
+          setParams((prev) => ({ ...prev, load_style_image: imageUrl }));
+        } else if (imgKey === "img3") {
+          setParams((prev) => ({ ...prev, load_logo_image: imageUrl }));
+        }
+      };
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
   };
 
-  // 确保图片被正确绘制到 canvas 上
   useEffect(() => {
     if (images.img1 && canvasRefs.canvas1.current) {
       drawImageToCanvas("canvas1", images.img1);
@@ -62,30 +81,17 @@ const ImageUploadAndEdit = () => {
     }
   }, [images.img3]);
 
-  // 通用绘制图片到 canvas 的方法
   const drawImageToCanvas = (canvasKey, img) => {
     const canvas = canvasRefs[canvasKey].current;
     const ctx = canvas.getContext("2d");
+
     canvas.width = img.width;
     canvas.height = img.height;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(img, 0, 0, img.width, img.height); // 绘制图片
 
-    // 保存原始图片的 base64 数据
-    const originalImageBase64 = canvas.toDataURL("image/png");
-    if (canvasKey === "canvas1") {
-      setParams((prev) => ({
-        ...prev,
-        load_original_image: originalImageBase64,
-      }));
-    } else if (canvasKey === "canvas3") {
-      setParams((prev) => ({ ...prev, load_style_image: originalImageBase64 }));
-    } else if (canvasKey === "canvas5") {
-      setParams((prev) => ({ ...prev, load_logo_image: originalImageBase64 }));
-    }
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(img, 0, 0, img.width, img.height);
   };
 
-  // 涂鸦操作
   const handleMouseDown = (paintingKey) => {
     setPainting((prevState) => ({
       ...prevState,
@@ -108,20 +114,19 @@ const ImageUploadAndEdit = () => {
 
     const canvasKey = paintingKey === "painting1" ? "canvas1" : "canvas3";
     const canvas = canvasRefs[canvasKey].current;
-    if (!canvas) return; // 确保 canvas 存在
+    if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
-    const rect = canvas.getBoundingClientRect(); // 获取 canvas 显示的矩形区域
-    const scaleX = canvas.width / rect.width; // 计算 X 轴缩放比例
-    const scaleY = canvas.height / rect.height; // 计算 Y 轴缩放比例
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
 
-    // 根据缩放比例调整鼠标位置
     const x = (e.clientX - rect.left) * scaleX;
     const y = (e.clientY - rect.top) * scaleY;
 
     ctx.lineWidth = 10;
     ctx.lineCap = "round";
-    ctx.strokeStyle = "rgba(255, 0, 0, 0.7)"; // 红色涂鸦
+    ctx.strokeStyle = "rgba(255, 0, 0, 0.7)";
 
     ctx.lineTo(x, y);
     ctx.stroke();
@@ -129,8 +134,7 @@ const ImageUploadAndEdit = () => {
     ctx.moveTo(x, y);
   };
 
-  // 通用生成黑底白涂鸦图片方法
-  const handleSubmit = (canvasKey, blackCanvasKey) => {
+  const handleSubmit = async (canvasKey, blackCanvasKey) => {
     const canvas = canvasRefs[canvasKey].current;
     const blackCanvas = canvasRefs[blackCanvasKey].current;
 
@@ -138,7 +142,7 @@ const ImageUploadAndEdit = () => {
     blackCanvas.width = canvas.width;
     blackCanvas.height = canvas.height;
     ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, blackCanvas.width, blackCanvas.height); // 填充黑色背景
+    ctx.fillRect(0, 0, blackCanvas.width, blackCanvas.height);
 
     const imgData = canvas
       .getContext("2d")
@@ -148,7 +152,6 @@ const ImageUploadAndEdit = () => {
       const r = imgData.data[i];
       const g = imgData.data[i + 1];
       const b = imgData.data[i + 2];
-      // 如果是红色（涂鸦部分），将其转换为白色
       if (r > 200 && g < 50 && b < 50) {
         imgData.data[i] = 255;
         imgData.data[i + 1] = 255;
@@ -160,36 +163,117 @@ const ImageUploadAndEdit = () => {
     }
 
     ctx.putImageData(imgData, 0, 0);
-    const doodlesOnBlack = blackCanvas.toDataURL("image/png");
-    if (canvasKey === "canvas1") {
-      setParams((pre) => ({ ...pre, load_original_mask: doodlesOnBlack }));
+
+    blackCanvas.toBlob(async (blob) => {
+      const file = new File([blob], `${canvasKey}-mask.png`, {
+        type: "image/png",
+      });
+
+      try {
+        const response = await fetch(`/api/dashboard?filename=${file.name}`, {
+          method: "POST",
+          body: file,
+        });
+
+        const newBlob = await response.json();
+        const imageUrl = newBlob.url;
+
+        if (canvasKey === "canvas1") {
+          setParams((pre) => ({ ...pre, load_original_mask: imageUrl }));
+        } else {
+          setParams((pre) => ({ ...pre, load_style_mask: imageUrl }));
+        }
+      } catch (error) {
+        console.error("Error uploading the mask:", error);
+      }
+    }, "image/png");
+  };
+
+  const getImg = async () => {
+    const response = await fetch(
+      "http://dev.chimerai.cn:11118/v1/jeanswest_pattern_generation_with_tryon",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "ai-token": "534dc1cc256cd9c3f1b62f14900fa5978SnLbY",
+          terminal: "4",
+        },
+        body: JSON.stringify({
+          load_original_image:
+            "https://pic.imgdb.cn/item/66eaac34f21886ccc0b95ee7.jpg",
+          load_original_mask:
+            "https://pic.imgdb.cn/item/66eaac53f21886ccc0b97aee.png",
+          load_style_image:
+            "https://pic.imgdb.cn/item/66eaac70f21886ccc0b99248.jpg",
+          load_style_mask:
+            "https://pic.imgdb.cn/item/66eaac8ef21886ccc0b9addd.png",
+          load_logo_image:
+            "https://pic.imgdb.cn/item/66eaacadf21886ccc0b9c861.jpg",
+          positive_prompt: "a art printing",
+          load_model_image:
+            "https://pic.imgdb.cn/item/66eaacedf21886ccc0ba00d7.jpg",
+          load_garment_image:
+            "https://pic.imgdb.cn/item/66eaad2ff21886ccc0ba4226.png",
+          garment_color: "#7F179B",
+          remove_printing_background: true,
+          printing_scale: 1.5,
+          ...params, // Merge any additional parameters from `params`
+        }),
+      }
+    );
+    if (response.ok) {
+      // Parse the response as JSON
+      const data = await response.json();
+      console.log(data); // Handle the response data
+      console.log(data.data.taskID);
+      const response = await fetch(
+        "http://dev.chimerai.cn:11118/v1/jeanswest_pattern_generation_with_tryon",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "ai-token": "534dc1cc256cd9c3f1b62f14900fa5978SnLbY",
+            terminal: "4",
+          },
+          body: JSON.stringify({
+            load_original_image:
+              "https://pic.imgdb.cn/item/66eaac34f21886ccc0b95ee7.jpg",
+            load_original_mask:
+              "https://pic.imgdb.cn/item/66eaac53f21886ccc0b97aee.png",
+            load_style_image:
+              "https://pic.imgdb.cn/item/66eaac70f21886ccc0b99248.jpg",
+            load_style_mask:
+              "https://pic.imgdb.cn/item/66eaac8ef21886ccc0b9addd.png",
+            load_logo_image:
+              "https://pic.imgdb.cn/item/66eaacadf21886ccc0b9c861.jpg",
+            positive_prompt: "a art printing",
+            load_model_image:
+              "https://pic.imgdb.cn/item/66eaacedf21886ccc0ba00d7.jpg",
+            load_garment_image:
+              "https://pic.imgdb.cn/item/66eaad2ff21886ccc0ba4226.png",
+            garment_color: "#7F179B",
+            remove_printing_background: true,
+            printing_scale: 1.5,
+            ...params,
+          }),
+        }
+      );
+      setTaskID(data.data.taskID);
     } else {
-      setParams((pre) => ({ ...pre, load_style_mask: doodlesOnBlack }));
+      // Handle the error
+      const errorMessage = await response.text();
+      console.error("Error:", errorMessage);
+      // Display an error or handle accordingly
     }
+    console.log(response);
   };
 
   useEffect(() => {
-    if (Object.keys(params).length > 0) {
-      for (const key in params) {
-        if (Object.hasOwnProperty.call(params, key)) {
-          const element = params[key];
-          // console.log(element);
-        }
-      }
+    if (Object.keys(params).length === 5) {
+      getImg();
     }
-    console.log(params);
   }, [params]);
-
-  // fetch('YOUR_SERVER_ENDPOINT', {
-  //   method: 'POST',
-  //   headers: {
-  //     'Content-Type': 'application/json',
-  //   },
-  //   body: JSON.stringify({ image1: imageData1, image2: imageData2 }),
-  // })
-  // .then(response => response.json())
-  // .then(data => console.log('Success:', data))
-  // .catch(error => console.error('Error:', error));
 
   return (
     <div className="container">
@@ -236,6 +320,7 @@ const ImageUploadAndEdit = () => {
           </div>
         )}
       </div>
+
       <div className="upload-section">
         <h3>上传LOGO</h3>
         <input
@@ -250,6 +335,7 @@ const ImageUploadAndEdit = () => {
           </div>
         )}
       </div>
+
       <button
         className="submit-button"
         onClick={() => {
@@ -257,7 +343,7 @@ const ImageUploadAndEdit = () => {
           handleSubmit("canvas3", "canvas4");
         }}
       >
-        提交图片涂鸦
+        提交图片
       </button>
     </div>
   );
