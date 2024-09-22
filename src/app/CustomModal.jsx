@@ -63,7 +63,7 @@ const CustomModal = ({
   }, [taskID, getImg2]);
 
   const downloadImage = () => {
-    message.info('正在下载')
+    message.info("正在下载");
     const link = document.createElement("a");
     link.href = generatedImageUrl;
     link.download = "image.png";
@@ -79,7 +79,7 @@ const CustomModal = ({
         setIsModalOpen(false);
       }}
       footer={[
-        <div className="custom-footer">
+        <div className="custom-footer" key="download2">
           <div
             key="download"
             onClick={downloadImage}
