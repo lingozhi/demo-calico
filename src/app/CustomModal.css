@@ -1,0 +1,34 @@
+.download ,.afresh{
+    display: flex;
+justify-content: center;
+align-items: center;
+gap: 0.625rem;
+flex-shrink: 0;
+border-radius: 6.25rem;
+background: linear-gradient(91deg, #3B5BBA 0%, #183074 100%);
+width: 8.875rem;
+    height: 3rem;
+    color: #FFF;
+text-align: center;
+font-feature-settings: 'liga' off, 'clig' off;
+font-family: Arial;
+font-size: 1.5rem;
+font-style: normal;
+font-weight: 700;
+line-height: 1.375rem; /* 91.667% */
+letter-spacing: 0.025rem;
+}
+.download:hover ,.afresh:hover{
+    opacity: 0.8;
+}
+.custom-footer{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    cursor: pointer;
+}
+.custom-con{
+    min-height: 20rem;
+    display: flex;
+    justify-content: center;
+}

@@ -5,7 +5,7 @@ export async function POST(req) {
     const body = await req.json();
     const path = body.path; // 从请求体中获取目标路径
     const apiUrl = `http://dev.chimerai.cn:11118/v1/${path}`; // 构建外部 API 的 URL
-
+    debugger
     // 删除 path 属性，因为它不需要转发到外部 API
     delete body.path;
 

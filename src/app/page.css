@@ -13,17 +13,102 @@
   overflow-y: auto;
 }
 
-/* 上传部分样式 */
+.row1{
+  width: 100%;
+  display: flex;
+  gap: 1.25rem;
+}
+.select{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.left-text{
+  color: #183074;
+  font-feature-settings: 'liga' off, 'clig' off;
+  font-family: "Alibaba PuHuiTi 3.0";
+  font-size: 1.3rem;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0.025rem;
+  margin-right: 0.9rem;
+  flex-shrink: 0;
+}
 .upload-section {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   text-align: center;
   width: 100%;
 }
+.right-btn{
+flex: 1;
+display: flex;
+justify-content: space-between;
+}
+.mag-top{
+  margin-top: 24px;
+}
+.radio-left,.radio-mid,.radio-right{
+  width: 21vw;
+  height: 2.875rem;
+  border-radius: 1rem 0.125rem 0.125rem 1rem;
+  background: #EBEFF8;
+  display: flex;
+  flex-direction: column;
+  color: #183074;
+  font-feature-settings: 'liga' off, 'clig' off;
+  font-family: "Alibaba PuHuiTi 3.0";
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.025rem;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.radio-mid{
+  border-radius: 0;
+}
+.last-con{
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+}
+.imme-gen {
+  width: 85vw;
+  height: 4rem;
+  line-height: 4rem;
+  flex-shrink: 0;
+  color: #FFF;
+  text-align: center;
+  font-feature-settings: 'liga' off, 'clig' off;
+  font-family: Arial;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.025rem;
+  border-radius: 6.25rem;
+  background: linear-gradient(91deg, #3B5BBA 0%, #183074 100%);
+  text-align: center;
+  cursor: pointer;
+  margin: 2rem 0; 
+}
+.imme-gen:hover{
+  opacity: 0.8;
+}
 
+.radio-right{
+  border-radius: 0.125rem 1rem 1rem 0.125rem;
+  background: #EBEFF8;
+}
 .max-h {
   min-height: 50px;
 }
-
+.selected {
+  background-color: #183074;
+  color: white;
+}
 .upload-input {
   margin-top: 10px;
   padding: 8px 12px;
@@ -41,10 +126,10 @@
 }
 
 .canvas {
-  border: 2px solid #000;
   border-radius: 5px;
   max-width: 100%;
   height: auto;
+    touch-action: none; 
 }
 h3 {
   color: #000;
