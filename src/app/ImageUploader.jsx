@@ -368,7 +368,7 @@ const ImageUploader = ({
         showUploadList={{ showPreviewIcon: true, showRemoveIcon: true }}
       >
         {fileList.length < 1 && (
-          <>
+          <div className='upload-con'>
             <div
               className="upload-logo"
               style={{
@@ -381,7 +381,7 @@ const ImageUploader = ({
               {text}
               {isRequire && <span className="upload-isRequire">*</span>}
             </div>
-          </>
+          </div>
         )}
       </Upload>
 
