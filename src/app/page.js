@@ -8,7 +8,7 @@ import CustomModal from "./CustomModal";
 import { message } from "antd";
 
 const ImageUploadAndEdit = () => {
-  // const [printSize, setPrintSize] = useState("mid"); // 默认选中中间
+  const [printSize, setPrintSize] = useState("mid"); // 默认选中中间
   const [changeLevel, setChangeLevel] = useState(2); // 默认选中中间
   const paramsRef = useRef({ garment_color: "#ebeff8" });
   const [taskID, setTaskID] = useState(null);
@@ -28,19 +28,26 @@ const ImageUploadAndEdit = () => {
       let workflow_id = 10 - changeLevel;
       if (paramsRef.current.load_logo_image) {
         workflow_id -= 3;
+      }else{
+        paramsRef.current.load_logo_image="https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Logo%20Image.jpg"
       }
       if (paramsRef.current.load_style_image) {
         workflow_id -= 3;
+      }else{
+        paramsRef.current.load_style_image= "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Style%20Image.jpg"
+        paramsRef.current.load_style_mask= "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Style%20Mask.png"
       }
 
       const response = await axios.post("/api/proxy", {
         path: "jeanswest_pattern_generation",
-        positive_prompt: "a art printing",
-        load_garment_image:
-          "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Garment%20Image.png",
+          load_original_image: "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Original%20Image.jpg",
+          load_original_mask: "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Original%20Mask.png",
+          positive_prompt: "a art printing",
           load_model_image: "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Model%20Image.jpg",
-        remove_printing_background: true,
-        printing_scale: 1.5,
+          load_garment_image: "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Garment%20Image.png",
+          garment_color: "#7F179B",
+          remove_printing_background: true,
+          printing_scale: 1.5,
         workflow_id: workflow_id, 
         ...paramsRef.current,
       });
@@ -95,6 +102,29 @@ const ImageUploadAndEdit = () => {
         />
       </div>
 
+      {/* <div className="select mag-top">
+        <div className="left-text">印花大小</div>
+        <div className="right-btn">
+          <div
+            className={`radio-left ${changeLevel === 1 ? "selected" : ""}`}
+            onClick={() => setPrintSize(1)}
+          >
+            小
+          </div>
+          <div
+            className={`radio-mid ${changeLevel === 2 ? "selected" : ""}`}
+            onClick={() => setPrintSize(2)}
+          >
+            中
+          </div>
+          <div
+            className={`radio-right ${changeLevel === 3 ? "selected" : ""}`}
+            onClick={() => setPrintSize(3)}
+          >
+            大
+          </div>
+        </div>
+      </div> */}
       <div className="select mag-top">
         <div className="left-text">变化程度</div>
         <div className="right-btn">
