@@ -28,7 +28,7 @@ letter-spacing: 0.025rem;
     cursor: pointer;
 }
 .custom-con{
-    min-height: 20rem;
+    min-height: 17rem;
     display: flex;
     justify-content: center;
 }

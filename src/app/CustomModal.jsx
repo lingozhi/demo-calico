@@ -63,10 +63,10 @@ const CustomModal = ({
   }, [taskID, getImg2]);
 
   const downloadImage = () => {
-    message.info("正在下载");
     const link = document.createElement("a");
     link.href = generatedImageUrl;
-    link.download = "image.png";
+    const dynamicFilename = "custom_image_name.png";
+    link.download = dynamicFilename;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

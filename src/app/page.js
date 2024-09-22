@@ -5,6 +5,7 @@ import axios from "@/app/lib/axios";
 import ImageUploader from "./ImageUploader";
 import ColorSet from "./Color-set";
 import CustomModal from "./CustomModal";
+import { message } from "antd";
 
 const ImageUploadAndEdit = () => {
   // const [printSize, setPrintSize] = useState("mid"); // 默认选中中间
@@ -122,6 +123,16 @@ const ImageUploadAndEdit = () => {
         <div
           className="imme-gen"
           onClick={() => {
+            const {load_original_image,load_style_image,load_logo_image} = paramsRef.current
+            console.log(load_original_image);
+            if (!load_original_image) {
+              message.error("请选择原始印花图片！")
+              return
+            }
+            if (load_style_image&&!load_logo_image) {
+              message.error("选择参选风格必须选LOGO")
+              return
+            }
             setIsModalOpen(true);
             getImg(); // 点击生成时触发图片生成
           }}
@@ -133,8 +144,8 @@ const ImageUploadAndEdit = () => {
       <CustomModal
       setIsModalOpen={setIsModalOpen}
         isModalOpen={isModalOpen}
-        taskID={taskID} // 传递 taskID 给子组件
-        handleRegenerate={getImg} // 重新生成图片
+        taskID={taskID} 
+        handleRegenerate={getImg} 
       />
     </div>
   );
