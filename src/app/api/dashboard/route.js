@@ -1,9 +1,7 @@
 import { put } from "@vercel/blob";
 import { NextResponse } from "next/server";
 
-export const config = {
-  runtime: "nodejs",
-};
+export const runtime = 'nodejs';
 
 export async function POST(request) {
   try {
