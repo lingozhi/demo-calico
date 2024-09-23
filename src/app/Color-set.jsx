@@ -7,7 +7,12 @@ const Color = ({ logo, cb }) => {
   const [color, setColor] = useState("#3b5bba");
   const [switchValue, setSwitchValue] = useState(false);
   const pickerRef = useRef(null);
-
+  const bgColor = useMemo(() => (typeof color === 'string' ? color : color.toHexString()), [color]);
+  const btnStyle = {
+    backgroundColor: bgColor,
+    height:'1.3rem',
+    width:'1.3rem'
+  };
   const switchChange = (checked) => {
     console.log(logo);
     if (!logo) {
@@ -40,12 +45,11 @@ const Color = ({ logo, cb }) => {
 
       <div className="reset-picker" onClick={handlePickerClick} style={{ cursor: 'pointer' }}>
         <ColorPicker
-          
           value={color}
           onChange={(e) => {
             setColor(e.toHexString());
           }} 
-        ><div ref={pickerRef} ></div></ColorPicker>
+        ><div ref={pickerRef} style={btnStyle}></div></ColorPicker>
         <div className='color-text'>{color}</div>
         <Image
           src='/color.svg'
