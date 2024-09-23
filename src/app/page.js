@@ -13,7 +13,7 @@ const ImageUploadAndEdit = () => {
   const paramsRef = useRef({ garment_color: "#3b5bba",checked:false });
   const [taskID, setTaskID] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [state, setState] = useState(false);
   const getImg = async () => {
     try {
       let workflow_id = 10 - changeLevel;
@@ -48,7 +48,6 @@ const ImageUploadAndEdit = () => {
       console.error("Error:", error.message || error);
     }
   };
-
   return (
     <div className="container">
       <div className="row1">
@@ -59,8 +58,9 @@ const ImageUploadAndEdit = () => {
           logo="/upload.svg"
           imgKey={["load_original_image", "load_original_mask"]}
           onUploadSuccess={(key, value) => {
-            paramsRef.current = { ...paramsRef.current, [key]: value };
+            paramsRef.current[key] = value;
           }}
+          
         />
         <ImageUploader
           modalTitle="请涂抹遮盖图中文字元素"
@@ -69,7 +69,7 @@ const ImageUploadAndEdit = () => {
           logo="/upload.svg"
           isRequire={true}
           onUploadSuccess={(key, value) => {
-            paramsRef.current = { ...paramsRef.current, [key]: value };
+            paramsRef.current[key] = value;
           }}
         />
       </div>
@@ -79,14 +79,20 @@ const ImageUploadAndEdit = () => {
           modalTitle="品牌logo"
           imgKey={["load_logo_image"]}
           onUploadSuccess={(key, value) => {
-            paramsRef.current = { ...paramsRef.current, [key]: value };
+            paramsRef.current[key] = value;
+            
+            if (value) {
+              setState(true)
+            }else{
+              setState(false)
+            }
           }}
         />
         <ColorSet
-        logo={paramsRef.current.load_logo_image}
+        logo={state}
           cb={(e) => {
-
-            paramsRef.current = { ...paramsRef.current, garment_color: e.color,checked:e.checked };
+            paramsRef.current['garment_color'] =  e.color;
+            paramsRef.current['checked'] =  e.checked;
           }}
         />
       </div>
@@ -142,8 +148,7 @@ const ImageUploadAndEdit = () => {
         <div
           className="imme-gen"
           onClick={() => {
-            const {load_original_image,load_style_image,load_logo_image} = paramsRef.current
-            console.log(load_original_image);
+            const {load_original_image,load_style_image} = paramsRef.current
             if (!load_original_image) {
               message.error("请选择原始印花图片！")
               return

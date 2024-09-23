@@ -15,7 +15,6 @@ const ImageUploader = ({
 
   const isGraffitiEnabled = imgKey.length > 1;
 
-  // 涂鸦相关的状态和引用
   const [brushSize, setBrushSize] = useState(10);
   const [previewVisible, setPreviewVisible] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
