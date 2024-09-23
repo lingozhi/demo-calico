@@ -1,0 +1,49 @@
+.set-page{
+    position: relative;
+    width: 100%;
+    height: 11rem;
+    /* display: flex;
+    flex-direction: column;
+    align-items: center; */
+}
+  .image-container {
+    position: relative;
+    width: 100%; 
+    height: 70%;
+    top:-20px;
+    border-radius: 1rem;
+  }
+  
+  .reset-picker {
+    position: absolute;
+    left: 50%;
+    bottom: 2px;
+    border-radius: 0.25675rem;
+    background: #F6F6F6;
+    width: 85%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 10;
+    padding: 0.3rem 0.3rem;
+    
+  }
+  
+.color-text{
+    color: #000;
+font-feature-settings: 'liga' off, 'clig' off;
+font-family: "Alibaba PuHuiTi 3.0";
+font-size: 1.0rem;
+font-style: normal;
+font-weight: 700;
+line-height: 0.70606rem;
+letter-spacing: 0.01281rem;
+}
+
+.color-switch{
+    position: absolute;
+    right: 0.3rem;
+    top: 0.3rem;
+    z-index: 2;
+}

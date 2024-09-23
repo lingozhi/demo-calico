@@ -10,37 +10,32 @@ import { message } from "antd";
 const ImageUploadAndEdit = () => {
   const [printSize, setPrintSize] = useState("mid"); // 默认选中中间
   const [changeLevel, setChangeLevel] = useState(2); // 默认选中中间
-  const paramsRef = useRef({ garment_color: "#ebeff8" });
+  const paramsRef = useRef({ garment_color: "#3b5bba",checked:false });
   const [taskID, setTaskID] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const getImg = async () => {
     try {
       let workflow_id = 10 - changeLevel;
-      if (paramsRef.current.load_logo_image) {
+      if (paramsRef.current.load_logo_image&&!paramsRef.current.checked) {
         workflow_id -= 3;
-      }else{
+      }else if( paramsRef.current.load_logo_image&& paramsRef.current.checked ){
+        workflow_id -= 6;
         paramsRef.current.load_logo_image="https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Logo%20Image.jpg"
-      }
-      if (paramsRef.current.load_style_image) {
-        workflow_id -= 3;
-      }else{
-        paramsRef.current.load_style_image= "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Style%20Image.jpg"
-        paramsRef.current.load_style_mask= "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Style%20Mask.png"
+      }else if( !paramsRef.current.load_logo_image&& !paramsRef.current.checked ){
+        paramsRef.current.load_logo_image="https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Logo%20Image.jpg"
       }
 
       const response = await axios.post("/api/proxy", {
-        path: "jeanswest_pattern_generation",
-          load_original_image: "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Original%20Image.jpg",
-          load_original_mask: "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Original%20Mask.png",
+          path: "jeanswest_pattern_generation",
           positive_prompt: "a art printing",
           load_model_image: "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Model%20Image.jpg",
           load_garment_image: "https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Garment%20Image.png",
           garment_color: "#7F179B",
           remove_printing_background: true,
           printing_scale: 1.5,
-        workflow_id: workflow_id, 
-        ...paramsRef.current,
+          workflow_id: workflow_id, 
+          ...paramsRef.current,
       });
 
       if (response.status === 200) {
@@ -88,8 +83,10 @@ const ImageUploadAndEdit = () => {
           }}
         />
         <ColorSet
+        logo={paramsRef.current.load_logo_image}
           cb={(e) => {
-            paramsRef.current = { ...paramsRef.current, garment_color: e };
+
+            paramsRef.current = { ...paramsRef.current, garment_color: e.color,checked:e.checked };
           }}
         />
       </div>
@@ -156,7 +153,7 @@ const ImageUploadAndEdit = () => {
               return
             }
             setIsModalOpen(true);
-            getImg(); // 点击生成时触发图片生成
+            getImg(); 
           }}
         >
           立刻生成
