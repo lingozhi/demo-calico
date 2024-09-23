@@ -14,15 +14,6 @@ const ImageUploadAndEdit = () => {
   const [taskID, setTaskID] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-
-  const handleOk = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
-
   const getImg = async () => {
     try {
       let workflow_id = 10 - changeLevel;
@@ -81,6 +72,7 @@ const ImageUploadAndEdit = () => {
           text="参考风格"
           imgKey={["load_style_image", "load_style_mask"]}
           logo="/upload.svg"
+          isRequire={true}
           onUploadSuccess={(key, value) => {
             paramsRef.current = { ...paramsRef.current, [key]: value };
           }}
@@ -159,8 +151,8 @@ const ImageUploadAndEdit = () => {
               message.error("请选择原始印花图片！")
               return
             }
-            if (load_style_image&&!load_logo_image) {
-              message.error("选择参选风格必须选LOGO")
+            if (!load_style_image) {
+              message.error("请选择参选风格图片！")
               return
             }
             setIsModalOpen(true);

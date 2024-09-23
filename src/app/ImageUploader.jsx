@@ -31,25 +31,19 @@ const ImageUploader = ({
   const fileListRef = useRef(fileList);
 
   const handleChange = ({ file, fileList: newFileList }) => {
-    // 获取上一次的 fileList
     const prevFileList = fileListRef.current;
 
-    // 更新 fileList
     setFileList(newFileList);
     fileListRef.current = newFileList;
 
-    // 检查文件是否被删除
     if (file.status === "removed") {
-      // 文件被删除，通知父组件
       onUploadSuccess(imgKey[0], undefined);
       if (isGraffitiEnabled) {
-        // 只有在涂鸦功能启用时才删除黑色图片
         onUploadSuccess(imgKey[1], undefined);
       }
       return;
     }
 
-    // 检查是否有新文件被添加
     const addedFiles = newFileList.filter(
       (newFile) =>
         !prevFileList.some((prevFile) => prevFile.uid === newFile.uid)
@@ -58,11 +52,9 @@ const ImageUploader = ({
     if (addedFiles.length > 0) {
       const selectedFile = addedFiles[0].originFileObj;
       if (selectedFile) {
-        // 上传用户选择的图片
         handleUpload(selectedFile, imgKey[0]);
 
         if (isGraffitiEnabled) {
-          // 如果涂鸦功能启用，生成并上传纯黑色图片
           generatePureBlackImage(selectedFile).then((blackImage) => {
             if (blackImage) {
               handleUpload(blackImage, imgKey[1]);
@@ -73,7 +65,6 @@ const ImageUploader = ({
     }
   };
 
-  // 上传图片
   const handleUpload = async (fileData, key) => {
     if (!fileData) return;
 
@@ -81,18 +72,14 @@ const ImageUploader = ({
     let fileName;
     let fileToUpload;
 
-    // 检查 fileData 是否包含 blob 和 filename
     if (fileData.blob && fileData.filename) {
-      // 从 generatePureBlackImage 或 generateBlackMask 返回的对象
       const { blob, filename } = fileData;
       fileName = key ? `${key}_${filename}` : filename;
       fileToUpload = new File([blob], fileName, { type: blob.type });
     } else if (fileData instanceof File) {
-      // 如果是 File 对象
       fileName = key ? `${key}_${fileData.name}` : fileData.name;
       fileToUpload = new File([fileData], fileName, { type: fileData.type });
     } else {
-      // 其他情况，可能是 Blob，没有 name 属性
       fileName = key ? `${key}_uploaded_file.png` : "uploaded_file.png";
       fileToUpload = new File([fileData], fileName, { type: fileData.type });
     }
@@ -114,7 +101,6 @@ const ImageUploader = ({
     }
   };
 
-  // 处理图片预览
   const handlePreview = async (file) => {
     let src = file.url;
     if (!src && file.originFileObj) {
@@ -127,7 +113,6 @@ const ImageUploader = ({
     }
   };
 
-  // 将文件转换为 Base64
   const getBase64 = (file) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -136,7 +121,6 @@ const ImageUploader = ({
       reader.onerror = (error) => reject(error);
     });
 
-  // 初始化或恢复画布
   useEffect(() => {
     if (!previewVisible) return;
 
@@ -168,9 +152,8 @@ const ImageUploader = ({
         };
       }
     }
-  }, [previewVisible, previewImage, canvasContent, isGraffitiEnabled]);
+  }, [previewVisible, previewImage, canvasContent, isGraffitiEnabled,canvasRefs.canvas1]);
 
-  // 开始绘画
   const startDrawing = useCallback(
     (x, y) => {
       if (!isGraffitiEnabled) return;
@@ -190,7 +173,7 @@ const ImageUploader = ({
 
       paintingRef.current = true;
     },
-    [brushSize, isGraffitiEnabled]
+    [brushSize, isGraffitiEnabled,canvasRefs.canvas1]
   );
 
   // 绘画
@@ -210,10 +193,9 @@ const ImageUploader = ({
       ctx.lineTo(adjustedX, adjustedY);
       ctx.stroke();
     },
-    [isGraffitiEnabled]
+    [isGraffitiEnabled,canvasRefs.canvas1]
   );
 
-  // 停止绘画
   const stopDrawing = useCallback(() => {
     if (!isGraffitiEnabled) return;
     if (paintingRef.current) {
@@ -222,66 +204,6 @@ const ImageUploader = ({
     paintingRef.current = false;
   }, [isGraffitiEnabled]);
 
-  // 生成黑底涂鸦图片
-  const generateBlackMask = useCallback(() => {
-    if (!isGraffitiEnabled) return null;
-    const canvas = canvasRefs.canvas1.current;
-    const blackCanvas = canvasRefs.canvas2.current;
-    if (!canvas || !blackCanvas || !canvasContextRef.current) return null;
-
-    const ctx = blackCanvas.getContext("2d");
-    blackCanvas.width = canvas.width;
-    blackCanvas.height = canvas.height;
-
-    // 获取画布的像素数据
-    const imgData = canvasContextRef.current.getImageData(
-      0,
-      0,
-      canvas.width,
-      canvas.height
-    );
-    const data = imgData.data;
-
-    // 检查画布是否有涂鸦内容
-    let isCanvasEmpty = true;
-    for (let i = 0; i < data.length; i += 4) {
-      if (data[i + 3] !== 0) {
-        isCanvasEmpty = false;
-        break;
-      }
-    }
-
-    if (isCanvasEmpty) {
-      // 如果画布为空，生成纯黑色图片
-      ctx.fillStyle = "black";
-      ctx.fillRect(0, 0, blackCanvas.width, blackCanvas.height);
-    } else {
-      // 如果有涂鸦，按照原有逻辑处理
-      ctx.fillStyle = "black";
-      ctx.fillRect(0, 0, blackCanvas.width, blackCanvas.height);
-
-      for (let i = 0; i < data.length; i += 4) {
-        if (data[i] > 200 && data[i + 1] < 50 && data[i + 2] < 50) {
-          data[i] = data[i + 1] = data[i + 2] = 255; // 白色
-        } else {
-          data[i + 3] = 0; // 透明
-        }
-      }
-      ctx.putImageData(imgData, 0, 0);
-    }
-
-    // 将 Canvas 转换为 dataURL
-    const dataURL = blackCanvas.toDataURL("image/png");
-    const blob = dataURLToBlob(dataURL);
-
-    // 定义文件名，确保包含扩展名
-    const filename = "black_mask.png";
-
-    // 返回 Blob 和文件名
-    return { blob, filename };
-  }, [isGraffitiEnabled]);
-
-  // 将 dataURL 转换为 Blob
   const dataURLToBlob = useCallback((dataURL) => {
     const [mime, bstr] = [
       dataURL.split(",")[0].match(/:(.*?);/)[1],
@@ -295,7 +217,58 @@ const ImageUploader = ({
     return new Blob([u8arr], { type: mime });
   }, []);
 
-  // 生成纯黑色图片
+  const generateBlackMask = useCallback(() => {
+    if (!isGraffitiEnabled) return null;
+    const canvas = canvasRefs.canvas1.current;
+    const blackCanvas = canvasRefs.canvas2.current;
+    if (!canvas || !blackCanvas || !canvasContextRef.current) return null;
+
+    const ctx = blackCanvas.getContext("2d");
+    blackCanvas.width = canvas.width;
+    blackCanvas.height = canvas.height;
+    const imgData = canvasContextRef.current.getImageData(
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+    const data = imgData.data;
+
+    let isCanvasEmpty = true;
+    for (let i = 0; i < data.length; i += 4) {
+      if (data[i + 3] !== 0) {
+        isCanvasEmpty = false;
+        break;
+      }
+    }
+
+    if (isCanvasEmpty) {
+      ctx.fillStyle = "black";
+      ctx.fillRect(0, 0, blackCanvas.width, blackCanvas.height);
+    } else {
+      ctx.fillStyle = "black";
+      ctx.fillRect(0, 0, blackCanvas.width, blackCanvas.height);
+
+      for (let i = 0; i < data.length; i += 4) {
+        if (data[i] > 200 && data[i + 1] < 50 && data[i + 2] < 50) {
+          data[i] = data[i + 1] = data[i + 2] = 255;
+        } else {
+          data[i + 3] = 0;
+        }
+      }
+      ctx.putImageData(imgData, 0, 0);
+    }
+
+    const dataURL = blackCanvas.toDataURL("image/png");
+    const blob = dataURLToBlob(dataURL);
+
+    const filename = "black_mask.png";
+
+    return { blob, filename };
+  }, [isGraffitiEnabled,canvasRefs.canvas1,canvasRefs.canvas2,dataURLToBlob]);
+
+
+
   const generatePureBlackImage = (referenceFile) => {
     return new Promise((resolve, reject) => {
       const img = new Image();
@@ -325,29 +298,22 @@ const ImageUploader = ({
     });
   };
 
-  // 处理 Modal 确认
   const handleModalOk = () => {
     if (isGraffitiEnabled) {
-      // 生成黑底涂鸦图片
       const blackMaskResult = generateBlackMask();
 
       if (!blackMaskResult) {
         message.error("无法生成图片，请重试");
         return;
       }
-
-      // 上传黑底涂鸦图片
       handleUpload(blackMaskResult, imgKey[1]);
-
       setPreviewVisible(false);
       setCanvasContent(null);
     } else {
-      // 仅关闭弹框
       setPreviewVisible(false);
     }
   };
 
-  // 上传前验证
   const beforeUpload = (file) => {
     if (!file.type.startsWith("image/")) {
       message.error("只能上传图片文件");
