@@ -14,7 +14,6 @@ const Color = ({ logo, cb }) => {
     width:'1.3rem'
   };
   const switchChange = (checked) => {
-    console.log(logo);
     if (!logo) {
       message.error('请先选择品牌logo！');
       return;

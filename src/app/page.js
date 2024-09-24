@@ -13,16 +13,16 @@ const ImageUploadAndEdit = () => {
   const paramsRef = useRef({ garment_color: "#3b5bba",checked:false });
   const [taskID, setTaskID] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [state, setState] = useState(false);
+  const [stateLogo, setStateLogo,] = useState(false);
   const getImg = async () => {
     try {
       let workflow_id = 10 - changeLevel;
-      if (paramsRef.current.load_logo_image&&!paramsRef.current.checked) {
+      if (stateLogo&&!paramsRef.current.checked) {
         workflow_id -= 3;
-      }else if( paramsRef.current.load_logo_image&& paramsRef.current.checked ){
+      }else if( stateLogo&& paramsRef.current.checked ){
         workflow_id -= 6;
         paramsRef.current.load_logo_image="https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Logo%20Image.jpg"
-      }else if( !paramsRef.current.load_logo_image&& !paramsRef.current.checked ){
+      }else if( !stateLogo&& !paramsRef.current.checked ){
         paramsRef.current.load_logo_image="https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Logo%20Image.jpg"
       }
 
@@ -82,14 +82,14 @@ const ImageUploadAndEdit = () => {
             paramsRef.current[key] = value;
             
             if (value) {
-              setState(true)
+              setStateLogo(true)
             }else{
-              setState(false)
+              setStateLogo(false)
             }
           }}
         />
         <ColorSet
-        logo={state}
+        logo={stateLogo}
           cb={(e) => {
             paramsRef.current['garment_color'] =  e.color;
             paramsRef.current['checked'] =  e.checked;
