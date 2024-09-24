@@ -30,13 +30,13 @@ const CustomModal = ({
           return;
         }
 
-        if (attemptCount >= 8) {
+        if (attemptCount >= 200) {
           message.error("生成图片错误，请重试！");
           setLoading(false);
           return;
         }
 
-        const delay = progress < 50 ? 30000 : 15000;
+        const delay = progress < 50 ? 3000 : 1500;
         timeoutIdRef.current = setTimeout(checkProgress, delay);
       } catch (error) {
         console.error("Error fetching progress:", error);
