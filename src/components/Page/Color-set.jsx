@@ -1,49 +1,49 @@
-import React, { useMemo, useState, useRef, useEffect } from "react";
-import { ColorPicker, Switch, message } from "antd";
-import Image from 'next/image';
-import './Color-set.css';
+import React, { useMemo, useState, useRef, useEffect } from 'react'
+import { ColorPicker, Switch, message } from 'antd'
+import Image from 'next/image'
+import './Color-set.css'
 
 const Color = ({ logo, cb }) => {
-  const [color, setColor] = useState("#3b5bba");
-  const [switchValue, setSwitchValue] = useState(false);
-  const pickerRef = useRef(null);
-  const bgColor = useMemo(() => (typeof color === 'string' ? color : color.toHexString()), [color]);
+  const [color, setColor] = useState('#3b5bba')
+  const [switchValue, setSwitchValue] = useState(false)
+  const pickerRef = useRef(null)
+  const bgColor = useMemo(() => (typeof color === 'string' ? color : color.toHexString()), [color])
   const btnStyle = {
     backgroundColor: bgColor,
     height: '1.3rem',
-    width: '1.3rem'
-  };
+    width: '1.3rem',
+  }
 
   const switchChange = (checked) => {
     if (!logo) {
-      message.error('请先选择品牌logo！');
-      return;
+      message.error('请先选择品牌logo！')
+      return
     }
-    setSwitchValue(checked);
-    cb({ color: color, checked: checked });
-  };
+    setSwitchValue(checked)
+    cb({ color: color, checked: checked })
+  }
 
   const handlePickerClick = () => {
     if (pickerRef.current) {
-      pickerRef.current.click();
+      pickerRef.current.click()
     }
-  };
+  }
 
   useEffect(() => {
-    cb({ color: color, checked: switchValue });
-  }, [color, cb, switchValue]);
+    cb({ color: color, checked: switchValue })
+  }, [color, cb, switchValue])
 
   return (
-    <div className='set-page upload-section'>
-      <div className='color-switch'>
+    <div className="set-page upload-section">
+      <div className="color-switch">
         <Switch value={switchValue} onChange={switchChange} />
       </div>
       <div className="image-container">
         <Image
-          src='https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Garment%20Image.png'
+          src="https://mind-file.oss-cn-beijing.aliyuncs.com/Load%20Garment%20Image.png"
           alt=""
           fill
-          style={{ objectFit: 'contain' }} 
+          style={{ objectFit: 'contain' }}
         />
       </div>
 
@@ -51,20 +51,16 @@ const Color = ({ logo, cb }) => {
         <ColorPicker
           value={color}
           onChange={(e) => {
-            setColor(e.toHexString());
-          }} 
-        ><div ref={pickerRef} style={btnStyle}></div></ColorPicker>
-        <div className='color-text'>{color}</div>
-        <Image
-          src='/color.svg'
-          alt="生成结果"
-          width={20}
-          height={20}
-          style={{ objectFit: 'contain' }} 
-        />
+            setColor(e.toHexString())
+          }}
+        >
+          <div ref={pickerRef} style={btnStyle}></div>
+        </ColorPicker>
+        <div className="color-text">{color}</div>
+        <Image src="/color.svg" alt="生成结果" width={20} height={20} style={{ objectFit: 'contain' }} />
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Color;
+export default Color
