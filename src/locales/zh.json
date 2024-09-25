@@ -1,0 +1,44 @@
+{
+  "index": {
+    "title": "CHIMER AI",
+    "desc": "CHIMER AI",
+    "try": "立即体验"
+  },
+  "LocaleSwitcher": {
+    "label": "更改语言",
+    "locale": "{locale, select, zh {🇨🇳 中文} en {🇺🇸 English} other {Unbekannt}}"
+  },
+  "Header": {
+    "home": "首页",
+    "about": "关于我们",
+    "pathnames": "路径名称"
+  },
+  "global": {
+    "technological exchanges": "技术交流",
+    "dashboard": "数据大盘",
+    "customChart": "'自定义报表",
+    "monitor": "数据监控",
+    "userManage": "用户管理",
+    "formEngine": "表单引擎",
+    "board": "办公白板",
+    "orderList": "订单列表",
+    "resource": "资产管理"
+  },
+  "user": {
+    "userList": "用户列表"
+  },
+  "page": {
+    "illustration": "印花图片",
+    "reference_style": "印花样式",
+    "brand_logo": "品牌LOGO",
+    "variation": "变化程度",
+    "generate": "立即生成",
+    "mask_your_logo_area": "请涂抹出放置LOGO的区域",
+    "mask_text_elements_in_the_picture": "请涂抹遮盖图中文字元素",
+    "upload": "上传"
+  },
+  "404": {
+    "tip": "next-admin: 您访问的页面不存在",
+    "goBack": "返回首页"
+  }
+}

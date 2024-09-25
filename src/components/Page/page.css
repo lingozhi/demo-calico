@@ -1,0 +1,165 @@
+/* 容器样式 */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f5f5f5;
+  margin: 0 auto;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  height: calc(100vh - 68px);
+  width: 100vw;
+  overflow-y: auto;
+}
+
+.row1 {
+  width: 100%;
+  display: flex;
+  gap: 1.25rem;
+}
+.select {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.left-text {
+  color: #183074;
+  font-feature-settings:
+    'liga' off,
+    'clig' off;
+  font-family: 'Alibaba PuHuiTi 3.0';
+  font-size: 1.3rem;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0.025rem;
+  margin-right: 0.9rem;
+  flex-shrink: 0;
+}
+.upload-section {
+  margin-bottom: 20px;
+  text-align: center;
+  width: 100%;
+}
+.right-btn {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+}
+.mag-top {
+  margin-top: 24px;
+}
+.radio-left,
+.radio-mid,
+.radio-right {
+  width: 21vw;
+  height: 2.875rem;
+  border-radius: 1rem 0.125rem 0.125rem 1rem;
+  background: #ebeff8;
+  display: flex;
+  flex-direction: column;
+  color: #183074;
+  font-feature-settings:
+    'liga' off,
+    'clig' off;
+  font-family: 'Alibaba PuHuiTi 3.0';
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.025rem;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.radio-mid {
+  border-radius: 0;
+}
+.last-con {
+  flex: 1;
+  display: flex;
+  align-items: flex-end;
+}
+.imme-gen {
+  width: 85vw;
+  height: 4rem;
+  line-height: 4rem;
+  flex-shrink: 0;
+  color: #fff;
+  text-align: center;
+  font-feature-settings:
+    'liga' off,
+    'clig' off;
+  font-family: Arial;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.025rem;
+  border-radius: 6.25rem;
+  background: linear-gradient(91deg, #3b5bba 0%, #183074 100%);
+  text-align: center;
+  cursor: pointer;
+  margin: 2rem 0;
+}
+.imme-gen:hover {
+  opacity: 0.8;
+}
+
+.radio-right {
+  border-radius: 0.125rem 1rem 1rem 0.125rem;
+  background: #ebeff8;
+}
+.max-h {
+  min-height: 50px;
+}
+.selected {
+  background-color: #183074;
+  color: white;
+}
+.upload-input {
+  margin-top: 10px;
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* 画布容器样式 */
+.canvas-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.canvas {
+  border-radius: 5px;
+  max-width: 100%;
+  height: auto;
+  touch-action: none;
+}
+h3 {
+  color: #000;
+}
+/* 提交按钮样式 */
+.submit-button {
+  padding: 12px 24px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+.submit-button:hover {
+  background-color: #0056b3;
+}
+.hanld_btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
