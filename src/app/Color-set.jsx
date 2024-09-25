@@ -1,7 +1,7 @@
-import React, { useMemo, useState, useRef } from "react";
+import React, { useMemo, useState, useRef, useEffect } from "react";
 import { ColorPicker, Switch, message } from "antd";
 import Image from 'next/image';
-import './Color-set.css'
+import './Color-set.css';
 
 const Color = ({ logo, cb }) => {
   const [color, setColor] = useState("#3b5bba");
@@ -10,9 +10,10 @@ const Color = ({ logo, cb }) => {
   const bgColor = useMemo(() => (typeof color === 'string' ? color : color.toHexString()), [color]);
   const btnStyle = {
     backgroundColor: bgColor,
-    height:'1.3rem',
-    width:'1.3rem'
+    height: '1.3rem',
+    width: '1.3rem'
   };
+
   const switchChange = (checked) => {
     if (!logo) {
       message.error('请先选择品牌logo！');
@@ -27,6 +28,10 @@ const Color = ({ logo, cb }) => {
       pickerRef.current.click();
     }
   };
+
+  useEffect(() => {
+    cb({ color: color, checked: switchValue });
+  }, [color, cb, switchValue]);
 
   return (
     <div className='set-page upload-section'>

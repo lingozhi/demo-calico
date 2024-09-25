@@ -137,7 +137,10 @@ const ImageUploadAndEdit = () => {
           </div>
           <div
             className={`radio-right ${changeLevel === 3 ? "selected" : ""}`}
-            onClick={() => setChangeLevel(3)}
+            onClick={() => {
+              setChangeLevel(3)
+              console.log(paramsRef.current);
+            }}
           >
             X3
           </div>
