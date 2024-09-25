@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "accept-language": "^3.0.18",
     "@ant-design/cssinjs": "^1.21.1",
     "@vercel/blob": "^0.24.0",
     "ali-oss": "^6.21.0",
@@ -19,9 +20,11 @@
     "i18next": "^23.15.1",
     "next": "14.2.12",
     "next-i18next": "^15.3.1",
+    "next-intl": "^3.19.5",
     "react": "^18",
     "react-dom": "^18",
-    "react-i18next": "^15.0.2"
+    "react-i18next": "^15.0.2",
+    "i18next-resources-to-backend": "^1.2.0"
   },
   "devDependencies": {
     "eslint": "^8",

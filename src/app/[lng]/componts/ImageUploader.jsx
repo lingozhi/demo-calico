@@ -10,9 +10,10 @@ const ImageUploader = ({
   logo = "/upload.svg",
   modalTitle = "",
   onUploadSuccess,
+  i18lng={}
 }) => {
   const [fileList, setFileList] = useState([]);
-
+  console.log('i18lng',i18lng);
   const isGraffitiEnabled = imgKey.length > 1;
 
   const [brushSize, setBrushSize] = useState(10);

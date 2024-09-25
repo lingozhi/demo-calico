@@ -13,20 +13,20 @@
   overflow-y: auto;
 }
 
-.row1{
+.row1 {
   width: 100%;
   display: flex;
   gap: 1.25rem;
 }
-.select{
+.select {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.left-text{
+.left-text {
   color: #183074;
-  font-feature-settings: 'liga' off, 'clig' off;
+  font-feature-settings: "liga" off, "clig" off;
   font-family: "Alibaba PuHuiTi 3.0";
   font-size: 1.3rem;
   font-style: normal;
@@ -40,23 +40,25 @@
   text-align: center;
   width: 100%;
 }
-.right-btn{
-flex: 1;
-display: flex;
-justify-content: space-between;
+.right-btn {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
 }
-.mag-top{
+.mag-top {
   margin-top: 24px;
 }
-.radio-left,.radio-mid,.radio-right{
+.radio-left,
+.radio-mid,
+.radio-right {
   width: 21vw;
   height: 2.875rem;
   border-radius: 1rem 0.125rem 0.125rem 1rem;
-  background: #EBEFF8;
+  background: #ebeff8;
   display: flex;
   flex-direction: column;
   color: #183074;
-  font-feature-settings: 'liga' off, 'clig' off;
+  font-feature-settings: "liga" off, "clig" off;
   font-family: "Alibaba PuHuiTi 3.0";
   font-size: 1.25rem;
   font-style: normal;
@@ -67,10 +69,10 @@ justify-content: space-between;
   align-items: center;
   cursor: pointer;
 }
-.radio-mid{
+.radio-mid {
   border-radius: 0;
 }
-.last-con{
+.last-con {
   flex: 1;
   display: flex;
   align-items: flex-end;
@@ -80,27 +82,27 @@ justify-content: space-between;
   height: 4rem;
   line-height: 4rem;
   flex-shrink: 0;
-  color: #FFF;
+  color: #fff;
   text-align: center;
-  font-feature-settings: 'liga' off, 'clig' off;
+  font-feature-settings: "liga" off, "clig" off;
   font-family: Arial;
   font-size: 1.5rem;
   font-style: normal;
   font-weight: 700;
   letter-spacing: 0.025rem;
   border-radius: 6.25rem;
-  background: linear-gradient(91deg, #3B5BBA 0%, #183074 100%);
+  background: linear-gradient(91deg, #3b5bba 0%, #183074 100%);
   text-align: center;
   cursor: pointer;
-  margin: 2rem 0; 
+  margin: 2rem 0;
 }
-.imme-gen:hover{
+.imme-gen:hover {
   opacity: 0.8;
 }
 
-.radio-right{
+.radio-right {
   border-radius: 0.125rem 1rem 1rem 0.125rem;
-  background: #EBEFF8;
+  background: #ebeff8;
 }
 .max-h {
   min-height: 50px;
@@ -129,7 +131,7 @@ justify-content: space-between;
   border-radius: 5px;
   max-width: 100%;
   height: auto;
-    touch-action: none; 
+  touch-action: none;
 }
 h3 {
   color: #000;

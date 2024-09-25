@@ -1,0 +1,1 @@
+export * from './src/app/lib/i18n/middleware'
