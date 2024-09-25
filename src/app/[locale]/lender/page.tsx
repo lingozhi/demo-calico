@@ -3,7 +3,7 @@ import { useTranslations } from 'next-intl'
 import Layout from '@/components/Layout'
 import styles from './index.module.less'
 
-export default function Lender({ params: { locale: string } }) {
+export default function Lender() {
   const t = useTranslations('user')
 
   return (
