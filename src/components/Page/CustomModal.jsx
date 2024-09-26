@@ -1,3 +1,4 @@
+'use client'
 import { Modal, Button, Image, message, Spin } from 'antd'
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 import axios from '@/lib/axios'

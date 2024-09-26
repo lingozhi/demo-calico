@@ -1,3 +1,4 @@
+'use client'
 import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Upload, message, Modal, Slider } from 'antd'
 import axios from '@/lib/axios'

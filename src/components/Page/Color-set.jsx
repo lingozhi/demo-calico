@@ -1,3 +1,4 @@
+'use client'
 import React, { useMemo, useState, useRef, useEffect } from 'react'
 import { ColorPicker, Switch, message } from 'antd'
 import Image from 'next/image'
