@@ -2,7 +2,9 @@ import { Modal, Button, Image, message, Spin } from 'antd'
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 import axios from '@/lib/axios'
 import './CustomModal.css'
+import { useTranslations } from 'next-intl'
 const CustomModal = ({ isModalOpen, handleRegenerate, setIsModalOpen, taskID }) => {
+  const t = useTranslations('page')
   const [loading, setLoading] = useState(false)
   const [generatedImageUrl, setGeneratedImageUrl] = useState('')
   const timeoutIdRef = useRef(null)
@@ -26,7 +28,7 @@ const CustomModal = ({ isModalOpen, handleRegenerate, setIsModalOpen, taskID }) 
         }
 
         if (attemptCount >= 200) {
-          message.error('生成图片错误，请重试！')
+          message.error(t('unable_to_generate_image_please_try_again'))
           setLoading(false)
           return
         }
@@ -34,8 +36,7 @@ const CustomModal = ({ isModalOpen, handleRegenerate, setIsModalOpen, taskID }) 
         const delay = progress < 50 ? 3000 : 1500
         timeoutIdRef.current = setTimeout(checkProgress, delay)
       } catch (error) {
-        console.error('Error fetching progress:', error)
-        message.error('生成图片错误，请重试！')
+        message.error(t('unable_to_generate_image_please_try_again'))
         setLoading(false)
       }
     }
@@ -76,18 +77,18 @@ const CustomModal = ({ isModalOpen, handleRegenerate, setIsModalOpen, taskID }) 
       footer={[
         <div className="custom-footer" key="download2">
           <div key="download" onClick={downloadImage} disabled={!generatedImageUrl} className="download">
-            下载图片
+            {t('download_image')}
           </div>
           <div key="regenerate" onClick={handleRegenerate} className="afresh">
-            重新生成
+            {t('regenerate')}
           </div>
         </div>,
       ]}
     >
-      <Spin spinning={loading} tip="正在生成图片，请稍等...">
+      <Spin spinning={loading} tip={t('image_is_being_generated_please_wait')}>
         <div className="custom-con">
           {generatedImageUrl && (
-            <Image src={generatedImageUrl} alt="生成结果" width={300} style={{ maxWidth: '100%' }} />
+            <Image src={generatedImageUrl} alt={t('generation_result')} width={300} style={{ maxWidth: '100%' }} />
           )}
         </div>
       </Spin>

@@ -67,6 +67,7 @@ const ImageUploadAndEdit = () => {
           modalTitle={t('mask_text_elements_in_the_picture')}
           imgKey={['load_style_image', 'load_style_mask']}
           logo="/upload.svg"
+          tips={t('try_to_avoid_illustration')}
           isRequire={true}
           onUploadSuccess={(key, value) => {
             paramsRef.current[key] = value
@@ -121,7 +122,7 @@ const ImageUploadAndEdit = () => {
         </div>
       </div> */}
       <div className="select mag-top">
-        <div className="left-text">{t('generate')}</div>
+        <div className="left-text">{t('variation')}</div>
         <div className="right-btn">
           <div className={`radio-left ${changeLevel === 1 ? 'selected' : ''}`} onClick={() => setChangeLevel(1)}>
             X1
@@ -146,11 +147,11 @@ const ImageUploadAndEdit = () => {
           onClick={() => {
             const { load_original_image, load_style_image } = paramsRef.current
             if (!load_original_image) {
-              message.error('请选择原始印花图片！')
+              message.error(t('please_select_the_original_illustration_image'))
               return
             }
             if (!load_style_image) {
-              message.error('请选择参选风格图片！')
+              message.error(t('please_select_the_reference_style_image'))
               return
             }
             setIsModalOpen(true)

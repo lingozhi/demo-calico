@@ -2,15 +2,18 @@ import React, { useState, useRef, useEffect, useCallback } from 'react'
 import { Upload, message, Modal, Slider } from 'antd'
 import axios from '@/lib/axios'
 import './ImageUploader.css'
+import { useTranslations } from 'next-intl'
 
 const ImageUploader = ({
   imgKey = [],
-  text = '上传图片',
+  text = '',
+  tips = '',
   isRequire = false,
   logo = '/upload.svg',
   modalTitle = '',
   onUploadSuccess,
 }) => {
+  const t = useTranslations('page')
   const [fileList, setFileList] = useState([])
 
   const isGraffitiEnabled = imgKey.length > 1
@@ -91,7 +94,7 @@ const ImageUploader = ({
       onUploadSuccess(key, imageUrl)
     } catch (error) {
       console.error('Error uploading file:', error)
-      message.error('上传文件失败，请重试')
+      message.error(t('upload_failed_please_try_again'))
     }
   }
 
@@ -141,7 +144,7 @@ const ImageUploader = ({
         }
 
         img.onerror = () => {
-          message.error('无法加载图片，请重试')
+          message.error(t('unable_to_load_image_please_try_again'))
           setPreviewVisible(false)
         }
       }
@@ -276,7 +279,7 @@ const ImageUploader = ({
       }
 
       img.onerror = () => {
-        message.error('无法生成纯黑色图片')
+        message.error(t('unable_to_generate_a_pure_black_image'))
         reject(null)
       }
     })
@@ -287,7 +290,7 @@ const ImageUploader = ({
       const blackMaskResult = generateBlackMask()
 
       if (!blackMaskResult) {
-        message.error('无法生成图片，请重试')
+        message.error(t('unable_to_generate_a_pure_black_image'))
         return
       }
       handleUpload(blackMaskResult, imgKey[1])
@@ -300,7 +303,7 @@ const ImageUploader = ({
 
   const beforeUpload = (file) => {
     if (!file.type.startsWith('image/')) {
-      message.error('只能上传图片文件')
+      message.error(t('only_image_files_can_be_uploaded'))
       return Upload.LIST_IGNORE
     }
     return true
@@ -331,6 +334,7 @@ const ImageUploader = ({
               {text}
               {isRequire && <span className="upload-isRequire">*</span>}
             </div>
+            <div className="upload-tips">{tips}</div>
           </div>
         )}
       </Upload>
@@ -355,7 +359,7 @@ const ImageUploader = ({
                     />
                   </div>
                   <div className="up-btn" onClick={handleModalOk}>
-                    上传
+                    {t('upload')}
                   </div>
                 </div>,
               ]

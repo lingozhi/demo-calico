@@ -1,142 +1,143 @@
 .upload-section {
-    height: 11rem;
+  height: 11rem;
 
-    align-items: center;
-    gap: 0.625rem;
-    background-color: #ebeff8;
-    cursor: pointer;
-    border-radius: 1rem;
-    border: 2px solid #EBEFF8;
-    background: #EBEFF8;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-  }
-  .upload-logo{
-    width: 2.25rem;
-    height: 2.25rem;
-    background-repeat: no-repeat;
-  }
-  .upload-text{
-    color: #A4B5DB;
-    font-family: "Alibaba PuHuiTi 3.0";
-    font-size: 1.2rem;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    letter-spacing: 0.025rem;
-    margin-top: 0.25rem;
-  }
-  .up-btn{
-    display: flex;
-    width: 6.25rem;
-    height: 2rem;
-    padding: 0.625rem;
-    justify-content: center;
-    align-items: center;
-    gap: 0.625rem;
-    border-radius: 0.5rem;
-background: #183074;
-color: #fff;
-flex-shrink: 0;
-cursor: pointer;
-  }
-  .up-btn:hover{
-    opacity: 0.8;
-  }
-.upload-isRequire{
-    color: #F00;
-    font-feature-settings: 'liga' off, 'clig' off;
-    font-family: "Alibaba PuHuiTi 3.0";
-    font-size: 1.5rem;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 16px;
-    letter-spacing: 0.025rem;
-    margin: 0 0 0 0.1rem;
+  align-items: center;
+  gap: 0.625rem;
+  background-color: #ebeff8;
+  cursor: pointer;
+  border-radius: 1rem;
+  border: 2px solid #ebeff8;
+  background: #ebeff8;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
-.noRequire{
-    display: none;
+.upload-logo {
+  width: 2.25rem;
+  height: 2.25rem;
+  background-repeat: no-repeat;
 }
-.ant-upload-list-item-container, .ant-upload-select{
-    width: 100% !important;
-    height: 100% !important;
+.upload-text {
+  color: #a4b5db;
+  font-family: 'Alibaba PuHuiTi 3.0';
+  font-size: 1.1rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.025rem;
+  margin-top: 0.25rem;
 }
-.ant-upload-list-picture-card{
-    height: 100% !important;
+.up-btn {
+  display: flex;
+  width: 6.25rem;
+  height: 2rem;
+  padding: 0.625rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  border-radius: 0.5rem;
+  background: #183074;
+  color: #fff;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+.up-btn:hover {
+  opacity: 0.8;
+}
+.upload-isRequire {
+  color: #f00;
+  font-feature-settings:
+    'liga' off,
+    'clig' off;
+  font-family: 'Alibaba PuHuiTi 3.0';
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px;
+  letter-spacing: 0.025rem;
+  margin: 0 0 0 0.1rem;
+}
+.noRequire {
+  display: none;
+}
+.ant-upload-list-item-container,
+.ant-upload-select {
+  width: 100% !important;
+  height: 100% !important;
+}
+.ant-upload-list-picture-card {
+  height: 100% !important;
 }
 
 .ant-upload-list-item {
-    background: rgba(0, 0, 0, 0.5) !important; 
-    position: relative;
-  }
-.ant-upload{
+  background: rgba(0, 0, 0, 0.5) !important;
+  position: relative;
+}
+.ant-upload {
   /* display: flex !important; */
   height: 100%;
   width: 100%;
   align-items: center;
   justify-content: center;
-    flex-direction: column;
+  flex-direction: column;
 }
-  .ant-upload-list-item .ant-upload-list-item-actions {
-    opacity: 1 !important;
-    transition: none;
+.ant-upload-list-item .ant-upload-list-item-actions {
+  opacity: 1 !important;
+  transition: none;
+}
+.ant-btn {
+  opacity: 1 !important;
+}
+/* 强制显示蒙层效果 */
+.ant-upload-list-item:hover .ant-upload-list-item-thumbnail::after,
+.ant-upload-list-item-thumbnail::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5); /* 设置蒙层的颜色和透明度 */
+  opacity: 1 !important;
+  transition: none;
+}
+.up-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
-  }
-  .ant-btn{
-    opacity: 1 !important;
+.change_icon {
+  background-image: url('/change.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
 }
-  /* 强制显示蒙层效果 */
-  .ant-upload-list-item:hover .ant-upload-list-item-thumbnail::after,
-  .ant-upload-list-item-thumbnail::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5); /* 设置蒙层的颜色和透明度 */
-    opacity: 1 !important;
-    transition: none;
-  }
-  .up-footer{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .change_icon{
-    background-image: url('/change.svg');
-    background-repeat: no-repeat;
-    background-size: contain;
-    width: 2.0rem;
-    height: 2.0rem;
-    display: inline-block;
-  }
-  .footer-left{
-    display:flex;
-    align-items: center;
-  }
-  .ant-modal-title{
-    color: #183074 !important;
-text-align: center;
-font-feature-settings: 'liga' off, 'clig' off;
-font-family: "Alibaba PuHuiTi 3.0";
-font-size: 1.5rem;
-font-style: normal;
-font-weight: 700;
-line-height: 1.375rem; /* 91.667% */
-letter-spacing: 0.025rem;
-  }
-  .upload-con{
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
-    flex: 1;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  
-  
+.footer-left {
+  display: flex;
+  align-items: center;
+}
+.ant-modal-title {
+  color: #183074 !important;
+  text-align: center;
+  font-feature-settings:
+    'liga' off,
+    'clig' off;
+  font-family: 'Alibaba PuHuiTi 3.0';
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.375rem; /* 91.667% */
+  letter-spacing: 0.025rem;
+}
+.upload-con {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}

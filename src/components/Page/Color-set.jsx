@@ -2,8 +2,10 @@ import React, { useMemo, useState, useRef, useEffect } from 'react'
 import { ColorPicker, Switch, message } from 'antd'
 import Image from 'next/image'
 import './Color-set.css'
+import { useTranslations } from 'next-intl'
 
 const Color = ({ logo, cb }) => {
+  const t = useTranslations('page')
   const [color, setColor] = useState('#3b5bba')
   const [switchValue, setSwitchValue] = useState(false)
   const pickerRef = useRef(null)
@@ -16,7 +18,7 @@ const Color = ({ logo, cb }) => {
 
   const switchChange = (checked) => {
     if (!logo) {
-      message.error('请先选择品牌logo！')
+      message.error(t('please_select_the_brand_logo_first'))
       return
     }
     setSwitchValue(checked)
@@ -57,7 +59,7 @@ const Color = ({ logo, cb }) => {
           <div ref={pickerRef} style={btnStyle}></div>
         </ColorPicker>
         <div className="color-text">{color}</div>
-        <Image src="/color.svg" alt="生成结果" width={20} height={20} style={{ objectFit: 'contain' }} />
+        <Image src="/color.svg" alt={t('generation_result')} width={20} height={20} style={{ objectFit: 'contain' }} />
       </div>
     </div>
   )

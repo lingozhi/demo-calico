@@ -35,7 +35,22 @@
     "generate": "立即生成",
     "mask_your_logo_area": "请涂抹出放置LOGO的区域",
     "mask_text_elements_in_the_picture": "请涂抹遮盖图中文字元素",
-    "upload": "上传"
+    "upload": "上传",
+    "upload_image": "上传图片",
+    "please_select_the_original_illustration_image": "请选择原始印花图片！",
+    "please_select_the_reference_style_image": "请选择印花风格图片！",
+    "upload_failed_please_try_again": "上传文件失败，请重试！",
+    "unable_to_load_image_please_try_again": "无法加载图片，请重试！",
+    "unable_to_generate_a_pure_black_image": "无法生成纯黑色图片！",
+    "unable_to_generate_image_please_try_again": "无法生成图片，请重试！",
+    "only_image_files_can_be_uploaded": "只能上传图片文件！",
+    "download_image": "下载图片",
+    "regenerate": "重新生成",
+    "try_to_avoid_illustration": "尽量避免有文字的图",
+    "image_is_being_generated_please_wait": "正在生成图片，请稍等...",
+    "generation_result": "生成结果",
+
+    "please_select_the_brand_logo_first": "请先选择品牌logo！"
   },
   "404": {
     "tip": "next-admin: 您访问的页面不存在",
