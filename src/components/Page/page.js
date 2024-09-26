@@ -56,6 +56,7 @@ const ImageUploadAndEdit = () => {
           text={t('illustration')}
           modalTitle={t('mask_your_logo_area')}
           isRequire={true}
+          tips={t('try_to_avoid_illustration')}
           logo="/upload.svg"
           imgKey={['load_original_image', 'load_original_mask']}
           onUploadSuccess={(key, value) => {
@@ -67,7 +68,6 @@ const ImageUploadAndEdit = () => {
           modalTitle={t('mask_text_elements_in_the_picture')}
           imgKey={['load_style_image', 'load_style_mask']}
           logo="/upload.svg"
-          tips={t('try_to_avoid_illustration')}
           isRequire={true}
           onUploadSuccess={(key, value) => {
             paramsRef.current[key] = value
